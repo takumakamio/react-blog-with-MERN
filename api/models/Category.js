@@ -9,4 +9,4 @@ const CategorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.mpdel("Category", CategorySchema);
+module.exports = mongoose.model("Category", CategorySchema);
