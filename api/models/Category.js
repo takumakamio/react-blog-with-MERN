@@ -3,10 +3,10 @@ const CategorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      require: true,
+      required: true,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.mpdel("Category", CategorySchema);
+module.exports = mongoose.model("Category", CategorySchema);

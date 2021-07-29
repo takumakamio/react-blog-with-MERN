@@ -3,27 +3,27 @@ const PostSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
     },
     desc: {
       type: String,
-      require: true,
+      required: true,
     },
     photo: {
       type: String,
-      require: false,
+      required: false,
     },
     username: {
       type: String,
-      require: true,
+      required: true,
     },
     categories: {
       type: Array,
-      require: false,
+      required: false,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.mpdel("Post", PostSchema);
+module.exports = mongoose.model("Post", PostSchema);
