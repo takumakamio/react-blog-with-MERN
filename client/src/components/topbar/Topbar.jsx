@@ -5,8 +5,16 @@ import PinterestIcon from "@material-ui/icons/Pinterest";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import SearchIcon from "@material-ui/icons/Search";
 import { Link } from "react-router-dom";
-export default function Topbar() {
-  const currentUser = true;
+import { Context } from "../../context/Context";
+import { useContext } from "react";
+
+export default function TopBar() {
+  const { user, dispatch } = useContext(Context);
+  const PF = "http://localhost:5000/images/";
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+  };
   return (
     <div className="top">
       <div className="topLeft">
@@ -18,50 +26,48 @@ export default function Topbar() {
       <div className="topCenter">
         <ul className="topList">
           <li className="topListItem">
-            <Link to="/" className="link">
+            <Link className="link" to="/">
               HOME
             </Link>
           </li>
           <li className="topListItem">
-            <Link to="/" className="link">
+            <Link className="link" to="/">
               ABOUT
             </Link>
           </li>
           <li className="topListItem">
-            <Link to="/" className="link">
+            <Link className="link" to="/">
               CONTACT
             </Link>
           </li>
           <li className="topListItem">
-            <Link to="/write" className="link">
+            <Link className="link" to="/write">
               WRITE
             </Link>
           </li>
-          <li className="topListItem"> {!currentUser && "LOGOUT"}</li>
+          <li className="topListItem" onClick={handleLogout}>
+            {user && "LOGOUT"}
+          </li>
         </ul>
       </div>
       <div className="topRight">
-        {currentUser ? (
-          <img
-            className="topImg"
-            src="https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-            alt=""
-          />
+        {user ? (
+          <Link to="/settings">
+            <img className="topImg" src={PF + user.profilePic} alt="" />
+          </Link>
         ) : (
-          <>
-            <ul className="topList">
-              <li className="topListItem">
-                <Link to="/login" className="link">
-                  LOGIN
-                </Link>
-              </li>
-              <li className="topListItem">
-                <Link to="/register" className="link">
-                  REGISTER
-                </Link>
-              </li>
-            </ul>
-          </>
+          <ul className="topList">
+            <li className="topListItem">
+              <Link className="link" to="/login">
+                LOGIN
+              </Link>
+            </li>
+            <li className="topListItem">
+              <Link className="link" to="/register">
+                REGISTER
+              </Link>
+            </li>
+          </ul>
         )}
         <SearchIcon className="topSearchIcon" />
       </div>
