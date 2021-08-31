@@ -2,12 +2,41 @@ import axios from "axios";
 import { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
+import jwt_decode from "jwt-decode";
 import "./login.css";
 
 export default function Login() {
   const userRef = useRef();
   const passwordRef = useRef();
-  const { dispatch, isFetching } = useContext(Context);
+  const { dispatch, isFetching, user } = useContext(Context);
+
+  const refreshToken = async () => {
+    try {
+      const res = await axios.post("/refresh", {
+        token: user.refreshToken,
+      });
+      dispatch({ type: "REFRESH_TOKEN", payload: res.data });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const axiosJWT = axios.create();
+
+  axiosJWT.interceptors.request.use(
+    async (config) => {
+      let currentDate = new Date();
+      const decodedToken = jwt_decode(user.accessToken);
+      if (decodedToken.exp * 1000 < currentDate.getTime()) {
+        const data = await refreshToken();
+        config.headers["authorization"] = "Bearer " + data.accessToken;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();

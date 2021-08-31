@@ -1,5 +1,10 @@
 const Reducer = (state, action) => {
   switch (action.type) {
+    case "REFRESH_TOKEN":
+      return {
+        user: { ...state, accessToken: action.payload },
+      };
+
     case "LOGIN_START":
       return {
         user: null,

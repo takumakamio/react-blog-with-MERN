@@ -1,3 +1,8 @@
+export const RefreshToken = (user) => ({
+  type: "REFRESH_TOKEN",
+  payload: user,
+});
+
 export const LoginStart = (userCredentials) => ({
   type: "LOGIN_START",
 });
