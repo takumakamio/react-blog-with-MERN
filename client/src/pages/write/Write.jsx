@@ -24,11 +24,21 @@ export default function Write() {
       data.append("file", file);
       newPost.photo = filename;
       try {
-        await axios.post("/upload", data);
+        await axios.post("/upload", data, {
+          headers: {
+            token:
+              "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+          },
+        });
       } catch (err) {}
     }
     try {
-      const res = await axios.post("/posts", newPost);
+      const res = await axios.post("/posts", newPost, {
+        headers: {
+          token:
+            "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+        },
+      });
       window.location.replace("/post/" + res.data._id);
     } catch (err) {}
   };

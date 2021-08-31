@@ -19,7 +19,12 @@ export default function SinglePost() {
 
   useEffect(() => {
     const getPost = async () => {
-      const res = await axios.get("/posts/" + path);
+      const res = await axios.get("/posts/" + path, {
+        headers: {
+          token:
+            "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+        },
+      });
       setPost(res.data);
       setTitle(res.data.title);
       setDesc(res.data.desc);
